@@ -1,5 +1,5 @@
 # imdb_sqlite3_python3
-simple set of executable in python3 integrated with sqlite3 DB, working on an IMDb like database. (searching, ordering, grouping...)
+simple set of executables in python3 integrated with sqlite3 DB, working on an IMDb like database. (searching, ordering, grouping...)
 
 ./acting "actor's name" 
 This will give you the list of all the movies the actor has worked in.
