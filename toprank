@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+import sqlite3,sys
+
+if len(sys.argv) != 4 and len(sys.argv) != 5 :
+	print("Usage:",sys.argv[0],"\"genres\" K StartYear EndYear")
+	sys.exit(1)
+
+con = sqlite3.connect('a2.db')
+
+cur = con.cursor()
+
+genres = ""
+
+n_args = len(sys.argv)
+k = int(sys.argv[n_args-3])
+start_year = sys.argv[n_args-2]
+end_year = sys.argv[n_args-1]
+
+if n_args == 5:
+	genres = tuple((sys.argv[1]).split('&'))
+	genres = str(genres)
+	#print (genres)
+
+	cur.execute('')
+
+elif n_args == 4:
+	cur.execute('SELECT m.title, m.year, m.content_rating, m.lang, r.imdb_score, r.num_voted_users '
+				'FROM movie m '
+				'JOIN rating r ON (r.movie_id = m.id) '
+				"WHERE m.year >= {} AND m.year <= {} "
+				'ORDER BY r.imdb_score DESC, r.num_voted_users DESC'.format(start_year,end_year))
+	i = 1
+	while i<=k:
+		t = cur.fetchone()
+		if t == None:
+			break
+		a,b,c,d,e,f = t
+		if b == None:
+			continue
+		print('{}. {} ({}, {}, {}) [{}, {}]'.format(i,a,b,c,d,e,f))
+		i+=1
