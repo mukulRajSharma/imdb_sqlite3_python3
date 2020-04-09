@@ -2,8 +2,8 @@
 simple set of executables in python3 integrated with sqlite3 DB, working on an IMDb like database. (searching, ordering, grouping...)
 
 <b>./acting "actor's name"</b>  
-  
-  <i>This will give you the list of all the movies the actor has worked in.</i>
+
+  This will give you the list of all the movies the actor has worked in.
 
 <b>./title "sub-string of a title"</b>  
   
