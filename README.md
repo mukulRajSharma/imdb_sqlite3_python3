@@ -2,9 +2,11 @@
 simple set of executables in python3 integrated with sqlite3 DB, working on an IMDb like database. (searching, ordering, grouping...)
 
 ./acting "actor's name" 
+
 This will give you the list of all the movies the actor has worked in.
 
 ./title "sub-string of a title"
+
 This will list all the movies which have the sub-string in the title
 
 ./toprank "genre1&genre2..&genreN" k startYear endYear
