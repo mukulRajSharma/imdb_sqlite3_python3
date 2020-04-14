@@ -17,11 +17,32 @@ start_year = sys.argv[n_args-2]
 end_year = sys.argv[n_args-1]
 
 if n_args == 5:
-	genres = tuple((sys.argv[1]).split('&'))
-	genres = str(genres)
+	inp_genres = set((sys.argv[1]).split('&'))
+	#inp_genres = str(inp_genres)
 	#print (genres)
 
-	cur.execute('')
+	cur.execute('SELECT m.title, m.year, m.content_rating, m.lang, r.imdb_score, r.num_voted_users, '
+				'GROUP_CONCAT (g.genre) '
+				'FROM movie m '
+				'JOIN genre g ON (g.movie_id = m.id) '
+				'JOIN rating r ON (r.movie_id = m.id) '
+				"WHERE m.year >= {} AND m.year <= {} "
+				'GROUP BY m.title '
+				'ORDER BY r.imdb_score DESC, r.num_voted_users DESC'.format(start_year,end_year))
+#SELECT m.title, GROUP_CONCAT (g.genre) AS gengen FROM movie m JOIN genre g ON (g.movie_id = m.id) JOIN rating r ON (r.movie_id = m.id) WHERE m.year >= 2000 AND m.year <= 2000 AND gengen IN ('Action') GROUP BY m.title ORDER BY r.imdb_score DESC;
+	i = 1
+	while i<=k:
+		t = cur.fetchone()
+		if t == None:
+			break
+		a,b,c,d,e,f,g = t
+		if b == None:
+			continue
+
+		sql_genres = set(g.split(','))
+		if (inp_genres.issubset(sql_genres)):
+			print('{}. {} ({}, {}, {}) [{}, {}]'.format(i,a,b,c,d,e,f))
+			i+=1
 
 elif n_args == 4:
 	cur.execute('SELECT m.title, m.year, m.content_rating, m.lang, r.imdb_score, r.num_voted_users '
