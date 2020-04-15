@@ -21,16 +21,40 @@ cur.execute('SELECT m.title, d.name, m.year, m.content_rating, r.imdb_score '
 			'ORDER BY m.year, m.title ASC'%actor)
 
 i = 1
+end = []
 while True:
 	t = cur.fetchone()
 	if t == None:
 		break
 	a,b,c,d,e = t
-	if b == None: #no director
+	# rating should be float so 7 = 7.0
+	e = float(e)
+	# year is None then print in the end
+	if c == None: 
+		end.append(t)
+		continue
+	#no director
+	if b == None:
 		a = a.strip()
 		print('{}. {} -- ({}, {}, {})'.format(i,a,c,d,e))
 	else:
 		print('{}. {} -- {} ({}, {}, {})'.format(i,a,b,c,d,e))
 	i+=1
 
+for j in range(0, len(end)):
+	t = end[j]
+	
+	if t == None:
+		break
+	
+	a,b,c,d,e = t
+	# rating should be float so 7 = 7.0
+	e = float(e)
+	a = a.strip()
+	if b == None:
+		a = a.strip()
+		print('{}. {} -- ({}, {})'.format(i,a,d,e))
+	else:
+		print('{}. {} -- {} ({}, {})'.format(i,a,b,d,e))
+	i+=1
 con.close()

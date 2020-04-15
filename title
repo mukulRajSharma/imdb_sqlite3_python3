@@ -10,7 +10,7 @@ title = sys.argv[1]
 title = '%' + title
 title = title + '%'
 
-con = sqlite3.connect('a2.db')
+con = sqlite3.connect('a2_1.db')
 
 cur = con.cursor()
 
@@ -18,7 +18,7 @@ cur.execute('SELECT m.title, m.year, m.content_rating, r.imdb_score, '
 			'GROUP_CONCAT (g.genre) '
 			'FROM movie m '
 			'JOIN rating r ON (m.id = r.movie_id) '
-			'JOIN genre g ON (g.movie_id = m.id) ' 
+			'JOIN genre g ON (g.movie_id = m.id) '
 			"WHERE m.title LIKE '%s'"
 			'GROUP BY m.title '
 			'ORDER BY m.year, m.content_rating, m.title ASC'%title)
@@ -28,15 +28,15 @@ end = []
 while True:
 	t = cur.fetchone()
 	if t == None:
-    	break
+		break
 	
 	a,b,c,d,e = t
 	
 	if b == None:
-  		end.append(t)
-  		continue
+		end.insert(0,t)
+		continue
 	
-	print('{}. {} ({} {}, {}) [{}]'.format(i,a,b,c,d,e))
+	print('{}. {} ({}, {}, {}) [{}]'.format(i,a,b,c,d,e))
 	i+=1
 
 for j in range(0, len(end)):
@@ -46,8 +46,9 @@ for j in range(0, len(end)):
 		break
 	
 	a,b,c,d,e = t
+	d = float(d)
+	a = a.strip()
 	print('{}. {} ({}, {}) [{}]'.format(i,a,c,d,e))
 	i += 1
 
 con.close()
-#'GROUP BY m.title '
