@@ -11,7 +11,7 @@ title = str(sys.argv[1])
 # number of rows in output
 N = int(sys.argv[2])
 
-con = sqlite3.connect('a2_1.db')
+con = sqlite3.connect('a2.db')
 cur = con.cursor()
 
 cur.execute('SELECT m.title, m.year, r.imdb_score, r.num_voted_users, '
@@ -49,11 +49,19 @@ for t in record:
 	if (t[4] != None):
 		t[4] = set(t[4].split(','))
 	#compare the titles (case-insensitive)
-	if (title.casefold() == a.casefold()) and b > latest_year:
-		main_query = t
-		main_title = a
-		main_genres = t[5]
-		main_keywords = t[4]
+	
+	if (title.casefold() == a.casefold()):
+		if b== None and main_title == "":
+			main_query = t
+			main_title = a
+			main_genres = t[5]
+			main_keywords = t[4]
+		elif b != None and b > latest_year:
+			main_query = t
+			main_title = a
+			main_genres = t[5]
+			main_keywords = t[4]
+			latest_year = b
 	
 	record[i] = t
 	i+=1
@@ -100,6 +108,8 @@ k = 1
 record.sort(key = itemgetter(6,7,2,3), reverse=True)
 for row in record:
 	if k > N:
+		break
+	if row == None:
 		break
 	# we don't want the movie itself
 	if row[0] == main_title:

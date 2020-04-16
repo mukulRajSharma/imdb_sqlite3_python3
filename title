@@ -10,7 +10,7 @@ title = sys.argv[1]
 title = '%' + title
 title = title + '%'
 
-con = sqlite3.connect('a2_1.db')
+con = sqlite3.connect('a2.db')
 
 cur = con.cursor()
 
@@ -21,7 +21,7 @@ cur.execute('SELECT m.title, m.year, m.content_rating, r.imdb_score, '
 			'JOIN genre g ON (g.movie_id = m.id) '
 			"WHERE m.title LIKE '%s'"
 			'GROUP BY m.title '
-			'ORDER BY m.year, m.content_rating, m.title ASC'%title)
+			'ORDER BY m.year ASC, r.imdb_score DESC, m.title ASC'%title)
 
 i = 1
 end = []
@@ -31,12 +31,14 @@ while True:
 		break
 	
 	a,b,c,d,e = t
-	
+	d = float(d)
 	if b == None:
 		end.insert(0,t)
 		continue
-	
-	print('{}. {} ({}, {}, {}) [{}]'.format(i,a,b,c,d,e))
+	if c == None:
+		print('{}. {} ({}, {}) [{}]'.format(i,a,b,d,e))
+	else:
+		print('{}. {} ({}, {}, {}) [{}]'.format(i,a,b,c,d,e))
 	i+=1
 
 for j in range(0, len(end)):
@@ -48,7 +50,10 @@ for j in range(0, len(end)):
 	a,b,c,d,e = t
 	d = float(d)
 	a = a.strip()
-	print('{}. {} ({}, {}) [{}]'.format(i,a,c,d,e))
+	if c == None:
+		print('{}. {} ({}) [{}]'.format(i,a,d,e))
+	else:
+		print('{}. {} ({}, {}) [{}]'.format(i,a,c,d,e))
 	i += 1
 
 con.close()
