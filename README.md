@@ -17,5 +17,5 @@ simple set of executables in python3 integrated with sqlite3 DB, working on an I
 
 </b>./similar "title" N</b>
 
-This query gives you N movie suggestions based on the title you provide.  
-It considers genres, keywords, IMdb rating, number of votes to make this decision.
+  This query gives you N movie suggestions based on the title you provide.  
+  It considers genres, keywords, IMdb rating, number of votes to make this decision.
