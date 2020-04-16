@@ -66,6 +66,9 @@ for curr in record:
 		break
 
 	curr = list(curr)
+	# if imdb_score is None we make it negative to avoid sort None error
+	if curr[2] == None:
+		curr[2] = -1
 	curr_genres = curr[5]
 	# title with no genres
 	if curr[5] == None:
@@ -92,13 +95,18 @@ for curr in record:
 
 k = 1
 
-sorted_record = sorted(record, key=itemgetter(6,7,2,3), reverse = True)
-for row in sorted_record:
+#sorted_record = sorted(record, key=itemgetter(6,7,2,3), reverse = True)
+
+record.sort(key = itemgetter(6,7,2,3), reverse=True)
+for row in record:
 	if k > N:
 		break
 	# we don't want the movie itself
 	if row[0] == main_title:
 		continue
+	# if imdb_score is None
+	if (row[2] < 0):
+		print("{}. {} ({}) [{}, {}, {}]".format(k, row[0], row[1], row[6], row[7], row[3]))
 	# if year is None
 	if (row[1] == None):
 		print("{}. {} [{}, {}, {}, {}]".format(k, row[0], row[6], row[7], float(row[2]), row[3]))
