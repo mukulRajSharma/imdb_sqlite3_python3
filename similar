@@ -20,7 +20,7 @@ cur.execute('SELECT m.title, m.year, r.imdb_score, r.num_voted_users, '
 			'JOIN rating r ON (m.id = r.movie_id) '
 			'JOIN genre g ON (m.id = g.movie_id) '
 			'LEFT JOIN keyword k ON (m.id = k.movie_id) '
-			'GROUP BY m.title')
+			'GROUP BY m.id')
 
 # incase multiple movies have the same title
 latest_year = 0
@@ -46,10 +46,15 @@ for t in record:
 	if (t[5] != None):
 		t[5] = t[5].split(',')
 		t[5] = set(t[5])
+	else:
+		t[5] = set()
+
 	if (t[4] != None):
 		t[4] = set(t[4].split(','))
+	else:
+		t[4] = set()
+
 	#compare the titles (case-insensitive)
-	
 	if (title.casefold() == a.casefold()):
 		if b== None and main_title == "":
 			main_query = t
@@ -103,17 +108,18 @@ for curr in record:
 
 k = 1
 
-#sorted_record = sorted(record, key=itemgetter(6,7,2,3), reverse = True)
-
 record.sort(key = itemgetter(6,7,2,3), reverse=True)
 for row in record:
 	if k > N:
 		break
 	if row == None:
 		break
-	# we don't want the movie itself
+	# dont print the original movie	
 	if row[0] == main_title:
 		continue
+	# if no common genre
+	if row[6] == 0:
+		break
 	# if imdb_score is None
 	if (row[2] < 0):
 		print("{}. {} ({}) [{}, {}, {}]".format(k, row[0], row[1], row[6], row[7], row[3]))
