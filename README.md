@@ -15,7 +15,7 @@ simple set of executables in python3 integrated with sqlite3 DB, working on an I
   This query will list the first k top-ranked movies (by IMDb rating and number of votes) belonging to the given set of genres.
   If the genre field is left blank then it finds the k top-ranked movies across all genres.
 
-</b>./similar "title" N</b>
+<b>./similar "title" N</b>
 
-This query gives you N movie suggestions based on the title you provide.  
-It considers genres, keywords, IMdb rating, number of votes to make this decision.
+  This query gives you N movie suggestions based on the title you provide.  
+  It considers genres, keywords, IMdb rating, number of votes to make this decision.
